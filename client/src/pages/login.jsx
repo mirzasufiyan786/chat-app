@@ -7,9 +7,14 @@ import { firebaseAuth } from "@/utils/FirebaseConfig.js";
 import axios from "axios";
 import { CHECK_USER_ROUTE } from "@/utils/ApiRoutes.js";
 import { useRouter } from "next/router";
+import { useStateProvider } from "@/context/StateContext";
+import { reducerCases } from "@/context/constants";
 
 const Login = () => {
   const router = useRouter();
+
+  const [{},dispatch]= useStateProvider();
+
   const handelLogin = async () => {
     const provider = new GoogleAuthProvider();
     const {user:{
@@ -20,6 +25,19 @@ const Login = () => {
         const {data} = await axios.post(CHECK_USER_ROUTE, {email});
         console.log({data});
         if(!data.status){
+          dispatch({
+            type:reducerCases.SET_NEW_USER,
+            newUser:true,
+          })
+          dispatch({
+            type:reducerCases.SET_USER_INFO,
+            userInfo:{
+              name,
+              email,
+              profileImage,
+              status:""
+            }
+          })
           router.push("/onboarding")
         }
       }
