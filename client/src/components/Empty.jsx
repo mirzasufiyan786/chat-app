@@ -1,7 +1,7 @@
 import React from "react";
 
 function Empty() {
-  return <div>Empty</div>;
+  return <div>Empty...</div>;
 }
 
 export default Empty;
