@@ -13,10 +13,10 @@ import { reducerCases } from "@/context/constants";
 const Login = () => {
   const router = useRouter();
 
-  const [{ userInfo ,newUser}, dispatch] = useStateProvider();
-useEffect(() => {
-if(userInfo?.id && !newUser) router.push("/")
-}, [newUser , userInfo])
+  const [{ userInfo, newUser }, dispatch] = useStateProvider();
+  useEffect(() => {
+    if (userInfo?.id && !newUser) router.push("/")
+  }, [newUser, userInfo])
   const handelLogin = async () => {
     const provider = new GoogleAuthProvider();
     const { user: {
@@ -43,7 +43,7 @@ if(userInfo?.id && !newUser) router.push("/")
           router.push("/onboarding")
         }
         else {
-          const { id, email, name, profilePicture: profileImage, status } = data;
+          const { id, email, name, profilePicture: profileImage, status } = data.data;
           dispatch({
             type: reducerCases.SET_USER_INFO,
             userInfo: {

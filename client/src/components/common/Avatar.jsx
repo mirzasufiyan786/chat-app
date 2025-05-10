@@ -11,6 +11,7 @@ function Avatar({ type, image, setImage }) {
   const [contextMenuCoordinates, setContextMenuCoordinates] = useState({
     x:0,y:0,
   })
+  const [hover, setHover] = useState(false)
   const [grabPhoto, setGrabPhoto] = useState(false)
 const [showPhotoLibray, setShowPhotoLibray] = useState(false)
 const [showCapturePhoto, setShowCapturePhoto] = useState(false)
@@ -72,6 +73,8 @@ setGrabPhoto(true);
       )}
       {type === "xl" && (
         <div className="relative group cursor-pointer h-60 w-60"
+        onMouseEnter={()=> setHover(true)}
+        onMouseLeave={()=> setHover(false)}
         onClick={e=>showContextMenu(e)}
         >
           <Image src={image} alt="avatar" className="rounded-full object-cover" fill />
