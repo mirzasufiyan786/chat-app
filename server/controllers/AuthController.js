@@ -39,3 +39,38 @@ try {
   next(error)
 }
   } 
+
+  export const getAllUsers = async (req, res, next) => {
+  try {
+    const prisma = getPrismaInstance();
+
+    // Fetch users with selected fields and order by name
+    const users = await prisma.user.findMany({
+      select: {
+        id: true,
+        email:true,
+        name: true,
+        profilePicture: true,
+        about: true,
+      },
+      orderBy: {
+        name: "asc",
+      },
+    });
+
+    // Group users by the first letter of their name
+    const groupedUsersbyinitialLeter = users.reduce((acc, user) => {
+      const firstLetter = user.name.charAt(0).toUpperCase();
+      if (!acc[firstLetter]) {
+        acc[firstLetter] = [];
+      }
+      acc[firstLetter].push(user);
+      return acc;
+    }, {});
+
+    return res.status(200).send({users : groupedUsersbyinitialLeter });
+  } catch (error) {
+    console.error("Error in getAllUsersGrouped:", error);
+    return res.status(500).json({ status: false, message: "Internal server error" });
+  }
+};
